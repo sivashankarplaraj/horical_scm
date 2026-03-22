@@ -34,10 +34,10 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Lane)
 class LaneAdmin(admin.ModelAdmin):
-    list_display = ('name', 'origin', 'destination', 'estimated_distance_km', 'is_active')
+    list_display = ('name', 'origin', 'location_1', 'location_2', 'destination', 'estimated_distance_km', 'is_active')
     search_fields = ('name',)
     list_filter = ('is_active',)
-    raw_id_fields = ('origin', 'destination')
+    raw_id_fields = ('origin', 'location_1', 'location_2', 'destination')
 
 
 class ServiceRouteLegInline(admin.TabularInline):

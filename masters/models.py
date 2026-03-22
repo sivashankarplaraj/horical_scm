@@ -41,6 +41,8 @@ class Location(models.Model):
 class Lane(models.Model):
     name = models.CharField(max_length=255)
     origin = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='lanes_from')
+    location_1 = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='lanes_location_1', null=True, blank=True)
+    location_2 = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='lanes_location_2', null=True, blank=True)
     destination = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='lanes_to')
     estimated_distance_km = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     is_active = models.BooleanField(default=True)
