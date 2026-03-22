@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Job {{ job.job_order_no }} – HORICAL SCS{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo;
+    <a href="{% url 'jobs:load_list' %}">Load List</a> &rsaquo;
+    <strong>{{ job.job_order_no }}</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+    <div class="d-flex justify-content-between mb-2">
+        <h5 class="mb-0">Job Order Details</h5>
+        <div>
+            {% if job.status == 'POSTED' %}
+            <a href="{% url 'operations:planning_detail' job.pk %}" class="btn btn-sm btn-primary me-1">Plan Trailer</a>
+            <a href="{% url 'jobs:cancel_job' job.pk %}" class="btn btn-sm btn-danger">Cancel</a>
+            {% elif job.status == 'PLANNED' %}
+            <a href="{% url 'operations:placement_detail' job.pk %}" class="btn btn-sm btn-warning">Place Trailer</a>
+            {% endif %}
+        </div>
+    </div>
+    <table class="table table-bordered job-detail-table">
+        <tr>
+            <th>Job Order No</th>
+            <td class="text-highlight">{{ job.job_order_no }}</td>
+            <th>Customer Name</th>
+            <td class="text-highlight">{{ job.customer.name }}</td>
+        </tr>
+        <tr>
+            <th>Movement Type</th>
+            <td class="text-highlight">{{ job.get_movement_type_display }}</td>
+            <th>Movement For</th>
+            <td>{{ job.get_movement_for_display }}</td>
+        </tr>
+        <tr>
+            <th>Service Route</th>
+            <td colspan="3" class="text-highlight">{{ job.service_route|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Origin</th>
+            <td>{{ job.origin|default:"-" }}</td>
+            <th>Destination</th>
+            <td>{{ job.destination|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Reporting Date/Time</th>
+            <td class="text-highlight">{{ job.reporting_datetime|date:"d/m/Y h:i A"|default:"-" }}</td>
+            <th>Sales Person</th>
+            <td class="text-highlight">{{ job.sales_person.get_full_name|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Truck Type</th>
+            <td>{{ job.truck_type|default:"-" }}</td>
+            <th>No Of Trailers</th>
+            <td>{{ job.no_of_trailers }}</td>
+        </tr>
+        <tr>
+            <th>Freight Type</th>
+            <td>{{ job.freight_type|default:"-" }}</td>
+            <th>Freight Rate</th>
+            <td>{{ job.offered_freight_rate }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td><strong>{{ job.get_status_display }}</strong></td>
+            <th>Posted By</th>
+            <td>{{ job.posted_by.get_full_name|default:"-" }}</td>
+        </tr>
+        {% if job.remarks %}
+        <tr><th>Remarks</th><td colspan="3">{{ job.remarks }}</td></tr>
+        {% endif %}
+    </table>
+    <div class="text-center">
+        <a href="/" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

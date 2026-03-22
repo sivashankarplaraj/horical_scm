@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Select Branch{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Select Branch</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Please choose a branch to continue.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_branch" class="form-label">Branch</label>
+                        {{ form.branch }}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Go</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

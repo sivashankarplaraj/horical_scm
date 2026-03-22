@@ -1,0 +1,164 @@
+:root {
+    --horical-header-bg: #2c3e50;
+    --horical-teal: #008080;
+    --horical-light-teal: #e0f2f1;
+    --horical-tab-active: #4fc3f7;
+    --horical-tab-bg: #e3f2fd;
+    --horical-btn-outline: #607d8b;
+    --horical-red: #c62828;
+    --horical-green: #2e7d32;
+}
+
+body {
+    font-family: Tahoma, 'Segoe UI', sans-serif;
+    font-size: 0.875rem;
+    background-color: #f8f9fa;
+}
+
+/* Breadcrumb area */
+.breadcrumb-area {
+    background: linear-gradient(to bottom, var(--horical-light-teal), #ffffff);
+    padding: 6px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+.breadcrumb-area i { color: var(--horical-teal); }
+
+/* Dashboard tabs */
+.dashboard-tabs .nav-link {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    color: #333;
+    background-color: var(--horical-tab-bg);
+    border: 1px solid #b3d4fc;
+    margin-right: 2px;
+    border-radius: 4px 4px 0 0;
+}
+.dashboard-tabs .nav-link.active {
+    background-color: var(--horical-tab-active);
+    color: #fff;
+    border-color: var(--horical-tab-active);
+}
+.dashboard-tabs .nav-link .badge {
+    font-size: 0.65rem;
+}
+
+/* Tables */
+.table-horical {
+    font-size: 0.8rem;
+}
+.table-horical th {
+    background-color: #e8e8e8;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.table-horical td {
+    vertical-align: middle;
+}
+
+/* Vendor card grid for trailer planning/placement */
+.vendor-column {
+    min-width: 160px;
+    max-width: 200px;
+}
+.vendor-column h6 {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.trailer-card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    font-size: 0.78rem;
+}
+.trailer-card:hover {
+    background-color: #f0f0f0;
+}
+.trailer-card .vehicle-no {
+    font-weight: bold;
+    font-size: 0.82rem;
+}
+.trailer-card .exp-info {
+    color: var(--horical-green);
+    font-size: 0.7rem;
+}
+.trailer-card .status-icon {
+    font-size: 0.9rem;
+}
+.trailer-card .status-icon.in-transit { color: #1565c0; }
+.trailer-card .status-icon.available { color: #2e7d32; }
+.trailer-card .status-icon.planned { color: #ef6c00; }
+
+/* Leg timeline */
+.leg-entry {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 20px;
+}
+.leg-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.leg-circle.green { background-color: #4caf50; }
+.leg-circle.blue { background-color: #2196f3; }
+.leg-circle.red { background-color: #f44336; }
+.leg-circle.orange { background-color: #ff9800; }
+
+.leg-status-item {
+    font-size: 0.78rem;
+    padding: 2px 0;
+}
+.leg-status-item .timestamp {
+    color: #1565c0;
+}
+.leg-status-item .status-label {
+    font-style: italic;
+}
+
+/* Form styling */
+.form-label-sm {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+/* Job order detail cards */
+.job-detail-table {
+    font-size: 0.8rem;
+}
+.job-detail-table th {
+    background-color: #f5f5f5;
+    width: 180px;
+    font-weight: 600;
+}
+.job-detail-table .text-highlight {
+    color: var(--horical-red);
+    font-weight: 600;
+}
+
+/* Toolbar buttons */
+.btn-outline-secondary.btn-sm {
+    font-size: 0.78rem;
+    border-color: var(--horical-btn-outline);
+    color: var(--horical-btn-outline);
+}
+.btn-outline-secondary.btn-sm:hover {
+    background-color: var(--horical-btn-outline);
+    color: #fff;
+}

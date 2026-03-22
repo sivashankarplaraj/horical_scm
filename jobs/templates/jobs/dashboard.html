@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – HORICAL SCS{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a>
+    &nbsp;<i class="bi bi-info-circle"></i>&nbsp;
+    <strong>Main Dashboard</strong>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include "partials/_toolbar.html" %}
+{% include "partials/_tabs.html" %}
+
+<div class="d-flex justify-content-end mb-2">
+    <a href="{% url 'jobs:export_csv' %}?tab={{ tab }}" class="btn btn-sm btn-outline-success">
+        <i class="bi bi-file-earmark-spreadsheet"></i> Export To CSV
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-horical align-middle">
+        <thead>
+            <tr>
+                <th>Sr</th>
+                <th>Job Order No.</th>
+                <th>Job Date &amp; Time</th>
+                <th>Customer Name</th>
+                <th>Movement Type</th>
+                <th>Route / Service Route</th>
+                <th>Truck Type</th>
+                <th>Freight Type</th>
+                <th>Freight Rate</th>
+                <th>Status</th>
+                <th>Posted By</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a href="{% url 'jobs:job_detail' job.pk %}">{{ job.job_order_no }}</a>
+                </td>
+                <td>{{ job.job_date|date:"d/m/Y h:i A" }}</td>
+                <td>{{ job.customer.name }}</td>
+                <td>{{ job.get_movement_type_display }}</td>
+                <td>{{ job.service_route|default:"-" }}</td>
+                <td>{{ job.truck_type|default:"-" }}</td>
+                <td>{{ job.freight_type|default:"-" }}</td>
+                <td>{{ job.offered_freight_rate }}</td>
+                <td>
+                    <span class="badge
+                        {% if job.status == 'POSTED' %}bg-primary
+                        {% elif job.status == 'PLANNED' %}bg-info text-dark
+                        {% elif job.status == 'PLACED' %}bg-warning text-dark
+                        {% elif job.status == 'IN_PROGRESS' %}bg-success
+                        {% elif job.status == 'CANCELLED' %}bg-danger
+                        {% elif job.status == 'COMPLETED' or job.status == 'POD_PENDING' or job.status == 'BILLED' %}bg-secondary
+                        {% else %}bg-light text-dark{% endif %}">
+                        {{ job.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ job.posted_by.get_full_name|default:"-" }}</td>
+                <td>
+                    {% if job.status == 'POSTED' %}
+                    <a href="{% url 'jobs:cancel_job' job.pk %}" class="text-danger small">Cancel</a>
+                    {% elif job.status == 'PLANNED' %}
+                    <a href="{% url 'operations:placement_detail' job.pk %}" class="text-info small">Place</a>
+                    {% elif job.status == 'PLACED' or job.status == 'IN_PROGRESS' %}
+                    <a href="{% url 'tracking:vehicle_status_list' %}" class="text-success small">Track</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="12" class="text-center text-muted py-4">No job orders found for this view.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

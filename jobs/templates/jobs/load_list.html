@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Load List – HORICAL SCS{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo; <strong>Load List</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+    <div class="d-flex justify-content-end mb-2">
+        <a href="{% url 'jobs:quick_load_posting' %}" class="btn btn-sm btn-info text-white">
+            <i class="bi bi-arrow-left-circle"></i> Click For Back
+        </a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-horical">
+            <thead><tr>
+                <th>Sr</th><th>Route / Service Route</th><th>Material Type</th>
+                <th>Truck Type</th><th>Reporting Date</th><th>No Of Trailers</th>
+                <th>Freight Type</th><th>Freight Rate</th><th>Posted By</th><th></th>
+            </tr></thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ job.service_route|default:"-" }}</td>
+                    <td>{{ job.material_type|default:"-" }}</td>
+                    <td>{{ job.truck_type|default:"-" }}</td>
+                    <td>{{ job.reporting_datetime|date:"d/m/Y"|default:"-" }}</td>
+                    <td>{{ job.no_of_trailers }}</td>
+                    <td>{{ job.freight_type|default:"-" }}</td>
+                    <td>{{ job.offered_freight_rate }}</td>
+                    <td>{{ job.posted_by.get_full_name|default:"-" }}</td>
+                    <td><a href="{% url 'jobs:job_detail' job.pk %}" class="small">More...</a></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="10" class="text-center text-muted py-3">No loads found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

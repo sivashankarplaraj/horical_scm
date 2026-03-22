@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Leg Update – {{ job.job_order_no }}{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo;
+    <a href="{% url 'tracking:vehicle_status_list' %}">Vehicle Status</a> &rsaquo;
+    <strong>{{ job.job_order_no }}</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+    <!-- Job + Placement Summary -->
+    <div class="card mb-3">
+        <div class="card-header py-1" style="background:#e0e0e0;"><strong>Trip Details</strong></div>
+        <div class="card-body p-2">
+            <table class="table table-bordered table-horical mb-0">
+                <tr>
+                    <th>Job Order No</th>
+                    <td class="text-highlight">{{ job.job_order_no }}</td>
+                    <th>Customer</th>
+                    <td class="text-highlight">{{ job.customer.name }}</td>
+                    <th>Vehicle No</th>
+                    <td class="text-highlight">{{ placement.vehicle.vehicle_no }}</td>
+                </tr>
+                <tr>
+                    <th>Service Route</th>
+                    <td colspan="2" class="text-highlight">{{ job.service_route|default:"-" }}</td>
+                    <th>Vendor</th>
+                    <td colspan="2">{{ placement.vendor.name }}</td>
+                </tr>
+                {% if placement.container_no_1 %}
+                <tr>
+                    <th>Container 1</th>
+                    <td>{{ placement.container_no_1 }} ({{ placement.container_size_1 }})</td>
+                    {% if placement.container_no_2 %}
+                    <th>Container 2</th>
+                    <td>{{ placement.container_no_2 }} ({{ placement.container_size_2 }})</td>
+                    {% else %}<td></td><td></td>
+                    {% endif %}
+                    <td colspan="2"></td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Leg Timeline -->
+    <div class="row">
+        <div class="col-md-7">
+            {% for leg in legs %}
+            {% with colors="green blue red orange" %}
+            {% with idx=forloop.counter0 %}
+            <div class="leg-entry">
+                <div class="leg-circle {% if forloop.counter == 1 %}green{% elif forloop.counter == 2 %}blue{% elif forloop.counter == 3 %}red{% else %}orange{% endif %}">
+                    {{ forloop.counter }}
+                </div>
+                <div>
+                    <strong>{{ leg.description }}</strong>
+                    <div class="mt-1">
+                        {% for su in leg.status_updates.all %}
+                        <div class="leg-status-item">
+                            <span class="timestamp">{{ su.status_datetime|date:"d/m/Y h:i A" }}</span>
+                            <span class="ms-2 status-label">({{ su.get_status_display }})</span>
+                            {% if su.remarks %}<span class="ms-2 text-muted">{{ su.remarks }}</span>{% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="text-muted small">No status updates yet.</div>
+                        {% endfor %}
+                    </div>
+                    {% if leg.is_current %}
+                    <!-- Status update form for the current / active leg -->
+                    <div class="mt-2 border rounded p-2 bg-light">
+                        <form method="post" action="{% url 'tracking:add_leg_status' placement.pk leg.pk %}">
+                            {% csrf_token %}
+                            <div class="row g-2 mb-2">
+                                <div class="col-sm-6">
+                                    <label class="form-label-sm">Status</label>
+                                    {{ status_form.status }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label-sm">Date &amp; Time</label>
+                                    {{ status_form.status_datetime }}
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label-sm">Remarks</label>
+                                {{ status_form.remarks }}
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label-sm">GPS Location</label>
+                                {{ status_form.gps_location }}
+                            </div>
+                            <div class="form-check mb-2">
+                                {{ status_form.is_other_info }}
+                                <label class="form-check-label form-label-sm ms-2">Other Information</label>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-sm btn-primary px-3">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endwith %}
+            {% endwith %}
+            {% empty %}
+            <p class="text-muted">No legs found for this placement. Check service route configuration.</p>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header py-1" style="background:#e0e0e0;"><strong>Quick Actions</strong></div>
+                <div class="card-body">
+                    <a href="{% url 'tracking:vehicle_status_list' %}" class="btn btn-sm btn-outline-secondary w-100 mb-2">
+                        Back to Vehicle Status List
+                    </a>
+                    {% if job.status == 'PLACED' or job.status == 'IN_PROGRESS' %}
+                    <div class="small text-muted mt-2">
+                        <strong>Note:</strong><br>
+                        – Select <em>Job Completed</em> to complete the trip and move to POD.<br>
+                        – Select <em>Trailer Change</em> to reassign a different vehicle mid-trip.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

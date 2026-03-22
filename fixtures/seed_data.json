@@ -1,0 +1,77 @@
+[
+  {"model": "masters.branch", "pk": 1, "fields": {"code": "CHN", "name": "Chennai Branch", "display_name": "Chennai", "address": "Chennai Port, Tamil Nadu", "is_active": true}},
+  {"model": "masters.branch", "pk": 2, "fields": {"code": "MUM", "name": "Mumbai Branch", "display_name": "Mumbai", "address": "JNPT, Navi Mumbai, Maharashtra", "is_active": true}},
+  {"model": "masters.branch", "pk": 3, "fields": {"code": "BLR", "name": "Bangalore Branch", "display_name": "Bangalore", "address": "Bangalore, Karnataka", "is_active": true}},
+
+  {"model": "masters.trucktype", "pk": 1, "fields": {"name": "20 FT", "is_active": true}},
+  {"model": "masters.trucktype", "pk": 2, "fields": {"name": "40 FT", "is_active": true}},
+  {"model": "masters.trucktype", "pk": 3, "fields": {"name": "Single Axle 32 FT", "is_active": true}},
+  {"model": "masters.trucktype", "pk": 4, "fields": {"name": "Multi Axle 32 FT", "is_active": true}},
+  {"model": "masters.trucktype", "pk": 5, "fields": {"name": "40 FT (High Cube)", "is_active": true}},
+
+  {"model": "masters.materialtype", "pk": 1, "fields": {"name": "Others / General", "is_active": true}},
+  {"model": "masters.materialtype", "pk": 2, "fields": {"name": "Automobile Accessories", "is_active": true}},
+  {"model": "masters.materialtype", "pk": 3, "fields": {"name": "FMCG / Retail Goods", "is_active": true}},
+  {"model": "masters.materialtype", "pk": 4, "fields": {"name": "Chemicals & Hazardous", "is_active": true}},
+  {"model": "masters.materialtype", "pk": 5, "fields": {"name": "Machinery / Heavy Equipment", "is_active": true}},
+  {"model": "masters.materialtype", "pk": 6, "fields": {"name": "Perishable / Reefer", "is_active": true}},
+
+  {"model": "masters.freighttype", "pk": 1, "fields": {"name": "Per Container", "is_active": true}},
+  {"model": "masters.freighttype", "pk": 2, "fields": {"name": "Per Trailer", "is_active": true}},
+  {"model": "masters.freighttype", "pk": 3, "fields": {"name": "Per Weight", "is_active": true}},
+  {"model": "masters.freighttype", "pk": 4, "fields": {"name": "Per KM", "is_active": true}},
+
+  {"model": "masters.cancellationreason", "pk": 1, "fields": {"reason": "Customer Cancelled", "is_active": true}},
+  {"model": "masters.cancellationreason", "pk": 2, "fields": {"reason": "Rate Not Agreed", "is_active": true}},
+  {"model": "masters.cancellationreason", "pk": 3, "fields": {"reason": "Shipment Delayed by Shipping Line", "is_active": true}},
+  {"model": "masters.cancellationreason", "pk": 4, "fields": {"reason": "Port Congestion", "is_active": true}},
+  {"model": "masters.cancellationreason", "pk": 5, "fields": {"reason": "Documentation Issue", "is_active": true}},
+  {"model": "masters.cancellationreason", "pk": 6, "fields": {"reason": "Duplicate Entry", "is_active": true}},
+
+  {"model": "masters.notrunningreason", "pk": 1, "fields": {"reason": "Vehicle Under Maintenance", "is_active": true}},
+  {"model": "masters.notrunningreason", "pk": 2, "fields": {"reason": "Driver Not Available", "is_active": true}},
+  {"model": "masters.notrunningreason", "pk": 3, "fields": {"reason": "Vehicle Breakdown", "is_active": true}},
+  {"model": "masters.notrunningreason", "pk": 4, "fields": {"reason": "Accident", "is_active": true}},
+  {"model": "masters.notrunningreason", "pk": 5, "fields": {"reason": "No Load Available", "is_active": true}},
+  {"model": "masters.notrunningreason", "pk": 6, "fields": {"reason": "Legal / RTO Issue", "is_active": true}},
+
+  {"model": "masters.location", "pk": 1, "fields": {"name": "Chennai Port (INNSA)", "location_type": "PORT", "code": "INNSA", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 2, "fields": {"name": "Kattupalli Port (INKAT)", "location_type": "PORT", "code": "INKAT", "city": "Kattupalli", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 3, "fields": {"name": "JNPT (INJPT)", "location_type": "PORT", "code": "INJPT", "city": "Navi Mumbai", "state": "Maharashtra", "is_active": true}},
+  {"model": "masters.location", "pk": 4, "fields": {"name": "Mundra Port (INMUN)", "location_type": "PORT", "code": "INMUN", "city": "Mundra", "state": "Gujarat", "is_active": true}},
+  {"model": "masters.location", "pk": 5, "fields": {"name": "Calyx CFS – Chennai", "location_type": "CFS", "code": "CALYX-CHN", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 6, "fields": {"name": "ICL CFS – Tondiarpet", "location_type": "CFS", "code": "ICL-TNT", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 7, "fields": {"name": "ICD Whitefield", "location_type": "CFS", "code": "ICD-WFD", "city": "Bangalore", "state": "Karnataka", "is_active": true}},
+  {"model": "masters.location", "pk": 8, "fields": {"name": "Chennai MTY Yard", "location_type": "MTY", "code": "MTY-CHN", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 9, "fields": {"name": "Customer Factory – Chennai", "location_type": "LOC", "code": "", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 10, "fields": {"name": "Customer Warehouse – Hosur", "location_type": "LOC", "code": "", "city": "Hosur", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 11, "fields": {"name": "Chennai", "location_type": "CITY", "code": "", "city": "Chennai", "state": "Tamil Nadu", "is_active": true}},
+  {"model": "masters.location", "pk": 12, "fields": {"name": "Bangalore", "location_type": "CITY", "code": "", "city": "Bangalore", "state": "Karnataka", "is_active": true}},
+  {"model": "masters.location", "pk": 13, "fields": {"name": "Mumbai", "location_type": "CITY", "code": "", "city": "Mumbai", "state": "Maharashtra", "is_active": true}},
+
+  {"model": "masters.serviceroute", "pk": 1, "fields": {"name": "Port – CFS (Local)", "service_type": "LOCAL", "is_active": true}},
+  {"model": "masters.serviceroute", "pk": 2, "fields": {"name": "CFS – Port (Export)", "service_type": "EXIM", "is_active": true}},
+  {"model": "masters.serviceroute", "pk": 3, "fields": {"name": "Port – MTY – CFS – Port", "service_type": "EXIM", "is_active": true}},
+  {"model": "masters.serviceroute", "pk": 4, "fields": {"name": "Chennai – Bangalore (Long Haul)", "service_type": "LONG_HAUL", "is_active": true}},
+
+  {"model": "masters.servicerouteleg", "pk": 1, "fields": {"service_route": 1, "leg_number": 1, "from_location_type": "PORT", "to_location_type": "CFS", "description": "Port to CFS delivery"}},
+
+  {"model": "masters.servicerouteleg", "pk": 2, "fields": {"service_route": 2, "leg_number": 1, "from_location_type": "CFS", "to_location_type": "PORT", "description": "CFS to Port (Export gate-in)"}},
+
+  {"model": "masters.servicerouteleg", "pk": 3, "fields": {"service_route": 3, "leg_number": 1, "from_location_type": "PORT", "to_location_type": "MTY", "description": "Port to Empty Yard (drop empty)"}},
+  {"model": "masters.servicerouteleg", "pk": 4, "fields": {"service_route": 3, "leg_number": 2, "from_location_type": "MTY", "to_location_type": "CFS", "description": "Empty Yard to CFS (pick up loaded)"}},
+  {"model": "masters.servicerouteleg", "pk": 5, "fields": {"service_route": 3, "leg_number": 3, "from_location_type": "CFS", "to_location_type": "PORT", "description": "CFS to Port (export gate-in)"}},
+
+  {"model": "masters.servicerouteleg", "pk": 6, "fields": {"service_route": 4, "leg_number": 1, "from_location_type": "LOC", "to_location_type": "CFS", "description": "Factory pickup to ICD/CFS"}},
+  {"model": "masters.servicerouteleg", "pk": 7, "fields": {"service_route": 4, "leg_number": 2, "from_location_type": "CFS", "to_location_type": "LOC", "description": "ICD/CFS to customer warehouse"}},
+
+  {"model": "masters.customer", "pk": 1, "fields": {"name": "Ashok Leyland Ltd", "email": "logistics@ashokleyland.com", "contact_no": "04422220000", "address": "1, Sardar Patel Road, Chennai", "gst_number": "33AAACA1234A1Z5", "is_active": true}},
+  {"model": "masters.customer", "pk": 2, "fields": {"name": "TVS Motor Company", "email": "scm@tvsmotor.com", "contact_no": "04224578900", "address": "Post Box No. 4, Harita, Hosur", "gst_number": "33AAACT5678B1Z3", "is_active": true}},
+  {"model": "masters.customer", "pk": 3, "fields": {"name": "Saint-Gobain India", "email": "logistics@saint-gobain.in", "contact_no": "04422670000", "address": "Sriperumbudur, Chennai", "gst_number": "33AABCS9876C1Z1", "is_active": true}},
+  {"model": "masters.customer", "pk": 4, "fields": {"name": "Hyundai Motor India Ltd", "email": "vendor@hmil.net", "contact_no": "04427154000", "address": "Irrungattukottai SIPCOT, Sriperumbudur", "gst_number": "33AAACH4321D1Z8", "is_active": true}},
+  {"model": "masters.customer", "pk": 5, "fields": {"name": "Brakes India Pvt Ltd", "email": "logistics@brakesindia.com", "contact_no": "04427601000", "address": "19, Rajiv Gandhi Salai, Chennai", "gst_number": "33AAACB2345E1Z6", "is_active": true}},
+
+  {"model": "masters.vendor", "pk": 1, "fields": {"name": "ABC Logistics Pvt Ltd", "contact_person": "Rajan Kumar", "phone": "9841001001", "email": "rajan@abclogistics.in", "address": "Manali, Chennai", "pan_number": "AABCA1234C", "gst_number": "33AABCA1234C1Z1", "is_active": true, "branch": 1}},
+  {"model": "masters.vendor", "pk": 2, "fields": {"name": "Sri Murugan Transport", "contact_person": "Selvam S", "phone": "9841002002", "email": "selvam@smt.in", "address": "Ennore, Chennai", "pan_number": "BBBCS5678D", "gst_number": "33BBBCS5678D1Z2", "is_active": true, "branch": 1}},
+  {"model": "masters.vendor", "pk": 3, "fields": {"name": "National Trailers Co", "contact_person": "Ramesh V", "phone": "9820001001", "email": "ramesh@ntc.in", "address": "Chembur, Mumbai", "pan_number": "AACNT9012E", "gst_number": "27AACNT9012E1Z3", "is_active": true, "branch": 2}}
+]

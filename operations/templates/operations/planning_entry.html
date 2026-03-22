@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Trailer Planning Entry – HORICAL SCS{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo;
+    <a href="{% url 'operations:planning_detail' job.pk %}">Planning Detail</a> &rsaquo;
+    <strong>Planning Entry</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+{% if form.errors %}
+<div class="alert alert-danger py-2 small">
+    {% for field in form %}{% for e in field.errors %}<div>{{ field.label }}: {{ e }}</div>{% endfor %}{% endfor %}
+</div>
+{% endif %}
+
+<!-- Job Order Details (read-only) -->
+<div class="card mb-3">
+    <div class="card-header py-1" style="background:#e0e0e0;"><strong>Job Order Details</strong></div>
+    <div class="card-body p-2">
+        <table class="table table-bordered table-horical mb-0">
+            <tr>
+                <th>Job Order No/Gen Date</th>
+                <td class="text-highlight">{{ job.job_order_no }}</td>
+                <td class="text-highlight">{{ job.job_date|date:"d/m/Y h:i A" }}</td>
+                <th>Customer Name</th>
+                <td class="text-highlight">{{ job.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Movement Type</th>
+                <td class="text-highlight">{{ job.get_movement_type_display }}</td>
+                <th>Movement For</th>
+                <td>{{ job.get_movement_for_display }}</td>
+                <th>Sale Person</th>
+                <td class="text-highlight">{{ job.sales_person.get_full_name|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>Movement Route</th>
+                <td colspan="2" class="text-highlight">{{ job.service_route|default:"-" }}</td>
+                <th>Reporting Date &amp; Time</th>
+                <td colspan="2" class="text-highlight">{{ job.reporting_datetime|date:"d/m/Y h:i A"|default:"-" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Editable Planning Entry Form -->
+<form method="post" novalidate>
+{% csrf_token %}
+<table class="table table-bordered table-horical">
+    <tr>
+        <th style="width:180px">Vendor Name</th>
+        <td>{{ form.vendor }}</td>
+        <th>Vehicle No</th>
+        <td>{{ form.vehicle }}</td>
+    </tr>
+    <tr>
+        <th>Customer Job No</th>
+        <td>{{ form.customer_job_no }}</td>
+        <th>Revenue</th>
+        <td>{{ form.revenue }}</td>
+    </tr>
+    <tr>
+        <th>Exp Reporting Date/Time</th>
+        <td>{{ form.exp_reporting_datetime }}</td>
+        <th>Exp Trip Start Date/Time</th>
+        <td>{{ form.exp_trip_start_datetime }}</td>
+    </tr>
+    <tr>
+        <th>Cut Off Date/Time</th>
+        <td>{{ form.cut_off_datetime }}</td>
+        <th>DO Validity Date/Time</th>
+        <td>{{ form.do_validity_datetime }}</td>
+    </tr>
+    <tr>
+        <th>Special Request</th>
+        <td colspan="3">{{ form.special_request }}</td>
+    </tr>
+</table>
+<div class="text-center my-3">
+    <button type="submit" class="btn btn-primary px-4 me-2">Save</button>
+    <a href="{% url 'operations:planning_detail' job.pk %}" class="btn btn-outline-secondary px-4">Back</a>
+</div>
+</form>
+</div>
+
+{% block extra_js %}
+<script>
+// Chain vehicle dropdown to vendor selection
+document.getElementById('id_vendor').addEventListener('change', function() {
+    const vendorId = this.value;
+    const vehicleSel = document.getElementById('id_vehicle');
+    if (!vendorId) return;
+    fetch('/operations/api/vehicles-by-vendor/' + vendorId + '/')
+        .then(r => r.json())
+        .then(data => {
+            vehicleSel.innerHTML = '<option value="">----Select----</option>';
+            data.vehicles.forEach(v => {
+                const o = document.createElement('option');
+                o.value = v.id; o.textContent = v.vehicle_no;
+                vehicleSel.appendChild(o);
+            });
+        });
+});
+</script>
+{% endblock %}
+{% endblock %}

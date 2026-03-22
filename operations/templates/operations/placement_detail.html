@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Trailer Placement – {{ job.job_order_no }}{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo;
+    <a href="{% url 'operations:placement_job_list' %}">Trailer Placement</a> &rsaquo;
+    <strong>{{ job.job_order_no }}</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+    <div class="d-flex gap-2 justify-content-end mb-2">
+        <a href="{% url 'operations:placement_entry' job.pk %}" class="btn btn-sm btn-warning">
+            <i class="bi bi-truck"></i> Nearby Trailers / Direct Entry
+        </a>
+        <a href="{% url 'operations:placement_job_list' %}" class="btn btn-sm btn-info text-white">
+            <i class="bi bi-rewind-fill"></i> Click For Job List
+        </a>
+    </div>
+
+    <!-- Job Order Details -->
+    <div class="card mb-3">
+        <div class="card-header py-1" style="background:#e0e0e0;"><strong>Job Order Details</strong></div>
+        <div class="card-body p-2">
+            <table class="table table-bordered table-horical mb-0">
+                <tr>
+                    <th>Job Order No/Gen Date</th>
+                    <td class="text-highlight">{{ job.job_order_no }}</td>
+                    <td class="text-highlight">{{ job.job_date|date:"d/m/Y h:i A" }}</td>
+                    <th>Customer Name</th>
+                    <td class="text-highlight">{{ job.customer.name }}</td>
+                </tr>
+                <tr>
+                    <th>Movement Type</th>
+                    <td class="text-highlight">{{ job.get_movement_type_display }}</td>
+                    <th>Movement For</th>
+                    <td>{{ job.get_movement_for_display }}</td>
+                    <th>Sale Person</th>
+                    <td class="text-highlight">{{ job.sales_person.get_full_name|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>Movement Route</th>
+                    <td colspan="2" class="text-highlight">{{ job.service_route|default:"-" }}</td>
+                    <th>Reporting Date &amp; Time</th>
+                    <td colspan="2" class="text-highlight">{{ job.reporting_datetime|date:"d/m/Y h:i A"|default:"-" }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Planning info if available -->
+    {% if planning %}
+    <div class="alert alert-info py-2 small mb-3">
+        <i class="bi bi-check-circle-fill"></i>
+        Planned vehicle: <strong>{{ planning.vehicle.vehicle_no }}</strong>
+        ({{ planning.vendor.name }})
+        – <a href="{% url 'operations:placement_entry' job.pk %}?vendor={{ planning.vendor.pk }}&vehicle={{ planning.vehicle.pk }}" class="alert-link">Use this vehicle</a>
+    </div>
+    {% endif %}
+
+    <!-- Trailer List For Placement (same card grid as planning) -->
+    <div class="card">
+        <div class="card-header py-1 d-flex justify-content-between align-items-center" style="background:#e0e0e0;">
+            <strong>Trailer List For Placement</strong>
+            <div class="small">
+                <i class="bi bi-arrow-right-circle text-primary"></i> InTransit &nbsp;
+                <i class="bi bi-info-circle text-success"></i> Available &nbsp;
+                <i class="bi bi-check-circle text-warning"></i> Planned
+            </div>
+        </div>
+        <div class="card-body p-2">
+            {% if vendor_cards %}
+            <div class="d-flex flex-wrap gap-2 overflow-auto">
+                {% for vc in vendor_cards %}
+                <div class="vendor-column">
+                    <h6 class="border-bottom pb-1">{{ vc.vendor.name }}</h6>
+                    {% for item in vc.vehicles %}
+                    <a href="{% url 'operations:placement_entry' job.pk %}?vendor={{ vc.vendor.pk }}&vehicle={{ item.vehicle.pk }}"
+                       class="text-decoration-none">
+                        <div class="trailer-card">
+                            <span class="status-icon
+                                {% if item.status == 'in_transit' %}in-transit
+                                {% elif item.status == 'planned' %}planned
+                                {% else %}available{% endif %}">
+                                {% if item.status == 'in_transit' %}<i class="bi bi-arrow-right-circle-fill"></i>
+                                {% elif item.status == 'planned' %}<i class="bi bi-check-circle-fill"></i>
+                                {% else %}<i class="bi bi-info-circle-fill"></i>{% endif %}
+                            </span>
+                            <span class="vehicle-no ms-1">{{ item.vehicle.vehicle_no }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted text-center my-3">No active vendors/vehicles found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

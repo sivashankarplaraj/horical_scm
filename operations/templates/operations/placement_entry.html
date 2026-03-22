@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Trailer Placement Entry – HORICAL SCS{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a> &rsaquo;
+    <a href="{% url 'operations:placement_detail' job.pk %}">Placement Detail</a> &rsaquo;
+    <strong>Placement Entry</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-2">
+{% if form.errors %}
+<div class="alert alert-danger py-2 small">
+    {% for field in form %}{% for e in field.errors %}<div>{{ field.label }}: {{ e }}</div>{% endfor %}{% endfor %}
+</div>
+{% endif %}
+
+<!-- Job Order Details (read-only) -->
+<div class="card mb-3">
+    <div class="card-header py-1" style="background:#e0e0e0;"><strong>Job Order Details</strong></div>
+    <div class="card-body p-2">
+        <table class="table table-bordered table-horical mb-0">
+            <tr>
+                <th>Job Order No/Gen Date</th>
+                <td class="text-highlight">{{ job.job_order_no }}</td>
+                <td class="text-highlight">{{ job.job_date|date:"d/m/Y h:i A" }}</td>
+                <th>Customer Name</th>
+                <td class="text-highlight">{{ job.customer.name }}</td>
+            </tr>
+            <tr>
+                <th>Movement Type</th>
+                <td class="text-highlight">{{ job.get_movement_type_display }}</td>
+                <th>Movement For</th>
+                <td>{{ job.get_movement_for_display }}</td>
+                <th>Sale Person</th>
+                <td class="text-highlight">{{ job.sales_person.get_full_name|default:"-" }}</td>
+            </tr>
+            <tr>
+                <th>Movement Route</th>
+                <td colspan="4" class="text-highlight">{{ job.service_route|default:"-" }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Placement Form -->
+<div class="card mb-3">
+    <div class="card-header py-1" style="background:#e0e0e0;"><strong>Job Order Placement Details</strong></div>
+    <div class="card-body p-2">
+        <form method="post" novalidate>
+        {% csrf_token %}
+        <table class="table table-bordered table-horical">
+            <tr>
+                <th style="width:160px">Vendor Name</th>
+                <td>{{ form.vendor }}</td>
+                <th>Vehicle No</th>
+                <td>{{ form.vehicle }}</td>
+            </tr>
+            <tr>
+                <th>Reporting Date/Time</th>
+                <td>{{ form.reporting_datetime }}</td>
+                <th>Trip Start Date/Time</th>
+                <td>{{ form.trip_start_datetime }}</td>
+            </tr>
+            <tr>
+                <th>Trip (KM)</th>
+                <td>{{ form.trip_km }}</td>
+                <th>Exp Job Complete Date/Time</th>
+                <td>{{ form.exp_job_complete_datetime }}</td>
+            </tr>
+            <tr>
+                <th>Empty Running KMR</th>
+                <td><span class="text-danger small">Note: Add empty running KMR for pickup this Job.</span>
+                    {{ form.empty_running_kmr }}</td>
+                <th>Veh Start Loc</th>
+                <td class="d-flex gap-1">{{ form.veh_start_state }} {{ form.veh_start_city }}</td>
+            </tr>
+            <tr>
+                <th>Cut Off Date/Time</th>
+                <td>{{ form.cut_off_datetime }}</td>
+                <th>DO Validity Date/Time</th>
+                <td>{{ form.do_validity_datetime }}</td>
+            </tr>
+            <tr>
+                <th>Driver Mobile No</th>
+                <td>{{ form.driver_mobile_no }}</td>
+                <th>Driver Name</th>
+                <td>{{ form.driver_name }}</td>
+            </tr>
+            <tr>
+                <th>DL No</th>
+                <td>{{ form.dl_no }}</td>
+                <th></th><td></td>
+            </tr>
+            <tr>
+                <th>Diesel (ltr &amp; Rate)</th>
+                <td class="d-flex gap-1">{{ form.diesel_litres }} {{ form.diesel_rate }}</td>
+                <th>Diesel Amt (Rs.)</th>
+                <td>{{ form.diesel_amount }}</td>
+            </tr>
+            <tr>
+                <th>Trailer Rent (Rs.)</th>
+                <td>{{ form.trailer_rent }}</td>
+                <th>Other Expenses (Rs.)</th>
+                <td>{{ form.other_expenses }}</td>
+            </tr>
+            <tr>
+                <th>Trip Advance (Rs.)</th>
+                <td>{{ form.trip_advance }}</td>
+                <th>Trip Incentive (Rs.)</th>
+                <td>{{ form.trip_incentive }}</td>
+            </tr>
+            <tr>
+                <th>Customer Incentive (Rs.)</th>
+                <td>{{ form.customer_incentive }}</td>
+                <th>Customer Job No</th>
+                <td>{{ form.customer_job_no }}</td>
+            </tr>
+            <tr>
+                <th>Load Type</th>
+                <td>{{ form.load_type }}</td>
+                <th>Container No 1</th>
+                <td class="d-flex gap-1">{{ form.container_no_1 }} {{ form.container_size_1 }}</td>
+            </tr>
+            <tr>
+                <th>Container No 2</th>
+                <td class="d-flex gap-1">{{ form.container_no_2 }} {{ form.container_size_2 }}</td>
+                <th>Tracking Through</th>
+                <td>{{ form.tracking_through }}</td>
+            </tr>
+            <tr>
+                <th>Remarks</th>
+                <td colspan="3">{{ form.remarks }}</td>
+            </tr>
+        </table>
+        <div class="text-center mt-2 mb-3">
+            <button type="submit" class="btn btn-primary px-4 me-2">Save</button>
+            <a href="{% url 'operations:placement_detail' job.pk %}" class="btn btn-outline-secondary px-4">Back</a>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+
+{% block extra_js %}
+<script>
+document.getElementById('id_vendor').addEventListener('change', function() {
+    const vendorId = this.value;
+    const vehicleSel = document.getElementById('id_vehicle');
+    if (!vendorId) return;
+    fetch('/operations/api/vehicles-by-vendor/' + vendorId + '/')
+        .then(r => r.json())
+        .then(data => {
+            vehicleSel.innerHTML = '<option value="">----Select----</option>';
+            data.vehicles.forEach(v => {
+                const o = document.createElement('option');
+                o.value = v.id; o.textContent = v.vehicle_no;
+                vehicleSel.appendChild(o);
+            });
+        });
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,27 @@
+<ul class="nav dashboard-tabs flex-nowrap overflow-auto mb-2" id="dashboardTabs">
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'today_load' %}active{% endif %}"
+           href="?tab=today_load">
+            Today Load
+            {% if today_count %}<span class="badge bg-danger ms-1">{{ today_count }}</span>{% endif %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'unconnected' %}active{% endif %}"
+           href="?tab=unconnected">
+            Un-Connected Job List
+            {% if unconnected_count %}<span class="badge bg-warning text-dark ms-1">{{ unconnected_count }}</span>{% endif %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'connected' %}active{% endif %}"
+           href="?tab=connected">
+            Connected Job Running List
+            {% if connected_count %}<span class="badge bg-success ms-1">{{ connected_count }}</span>{% endif %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'pod_update' %}active{% endif %}"
+           href="{% url 'tracking:pod_list' %}">POD Update</a>
+    </li>
+</ul>

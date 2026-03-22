@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Trailer Attendance Entry – HORICAL SCS{% endblock %}
+{% block breadcrumb %}
+<div class="breadcrumb-area">
+    <a href="/"><i class="bi bi-house-fill"></i></a>
+    <i class="bi bi-info-circle ms-2"></i>
+    <strong class="ms-1">Trailer Attendance Entry</strong>
+</div>
+{% endblock %}
+{% block content %}
+<div class="mt-3">
+{% if form.errors %}
+<div class="alert alert-danger py-2 small">
+    {% for field in form %}{% for e in field.errors %}<div>{{ field.label }}: {{ e }}</div>{% endfor %}{% endfor %}
+</div>
+{% endif %}
+<form method="post" novalidate>
+{% csrf_token %}
+<table class="table table-bordered table-horical">
+    <tr>
+        <th style="width:160px">Vendor Name</th>
+        <td>{{ form.vendor }}</td>
+        <th>Vehicle No</th>
+        <td>{{ form.vehicle }}</td>
+        <th>Closing KMR/HMR</th>
+        <td>{{ form.closing_kmr_hmr }}</td>
+    </tr>
+    <tr>
+        <th>No Running From Date Time</th>
+        <td colspan="2">{{ form.no_running_from }}</td>
+        <th>Alternate Vehicle No</th>
+        <td colspan="2">{{ form.alternate_vehicle_no }}</td>
+    </tr>
+    <tr>
+        <th>Reason For Not Running</th>
+        <td>{{ form.reason_for_not_running }}</td>
+        <th>Rent Applicable</th>
+        <td>{{ form.rent_applicable }}</td>
+        <th>Rent Amount</th>
+        <td>{{ form.rent_amount }}</td>
+    </tr>
+    <tr>
+        <th>Remarks</th>
+        <td colspan="5">{{ form.remarks }}</td>
+    </tr>
+</table>
+<div class="text-center my-3">
+    <button type="submit" class="btn btn-primary px-5">Submit</button>
+    <a href="/" class="btn btn-outline-secondary ms-2 px-4">Back</a>
+</div>
+</form>
+</div>
+{% endblock %}
